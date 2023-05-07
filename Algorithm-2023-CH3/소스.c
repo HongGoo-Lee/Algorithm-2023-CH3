@@ -36,7 +36,7 @@ void merge(int list[], int left, int mid, int right) {
             arr[k++] = list[l];
     }
 
-    // 배열 sorted[](임시 배열)의 리스트를 배열 list[]로 재복사
+    // 배열 arr[](임시 배열)의 리스트를 배열 list[]로 재복사
     for (l = left; l <= right; l++) {
         list[l] = arr[l];
     }
