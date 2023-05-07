@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void merge(int list[], int left, int mid, int right) {
+void merge(int list[], int left, int mid, int right)
+{
     int i, j, k, l,size=0;
     i = left;
     j = mid + 1;
@@ -44,10 +45,12 @@ void merge(int list[], int left, int mid, int right) {
 }
 
 // 합병 정렬
-void merge_sort(int list[], int left, int right) {
+void merge_sort(int list[], int left, int right)
+{
     int mid;
 
-    if (left < right) {
+    if (left < right)
+    {
         mid = (left + right) / 2;
         merge_sort(list, left, mid);
         merge_sort(list, mid + 1, right);
@@ -55,7 +58,8 @@ void merge_sort(int list[], int left, int right) {
     }
 }
 
-void main() {
+void main()
+{
     int* array;
     int size = 0, c = 0;
     FILE* fp = NULL;
