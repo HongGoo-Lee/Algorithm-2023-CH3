@@ -2,88 +2,82 @@
 #include <stdlib.h>
 #include <math.h>
 
-typedef struct _point {
-	int x;
-	int y;
-}Point;
+/* 구조체 타입 선언 */
+typedef struct {
+    int x;
+    int y;
+} Point;
 
-typedef struct _pointPair {
-	Point p1;
-	Point p2;
-	double dis;
+typedef struct _Pair {
+    Point p1;
+    Point p2;
+    double dis;
 }PointPair;
 
-double dis(Point p1, Point p2)
+double get_distance(Point p1, Point p2)
 {
-	double res=0;
-	int x = 0, y = 0;
-	x = p1.x - p2.x;
-	y = p1.y - p2.y;
-	res = sqrt(x * x + y * y);
-
-	return res;
+    double res = 0;
+    int x = (p1.x - p2.x);
+    int y = (p1.y - p2.y);
+    res = sqrt(x * x + y * y);
+    return res;
 }
 
-void merge(Point list[], int left, int mid, int right)
+PointPair find_closest_pair(Point array[], int size)
 {
-    int i, j, k, l, size = 0;
-    i = left;
-    j = mid + 1;
-    k = left;
-    size = right - left + 1;
-
-    Point* arr;
-    arr = (Point*)malloc(sizeof(Point) * size);
-
-    /* 분할 정렬된 list의 합병 */
-    while (i <= mid && j <= right)
+    PointPair cp = { 10000,10000,10000,10000,10000 };
+    double dis = 0;
+    for (int i = 0; i < size; i++)
     {
-        if (list[i].x <= list[j].x)
+        for (int j = i+1; j < size; j++)
         {
-            arr[k++].x = list[i++].x;
-        }
-        else
-        {
-            arr[k++].x = list[j++].x;
+            dis = get_distance(array[i], array[j]);
+            if (dis < cp.dis)
+            {
+                cp.p1.x = array[i].x;
+                cp.p1.y = array[i].y;
+                cp.p2.x = array[j].x;
+                cp.p2.y = array[j].y;
+                cp.dis = dis;
+            }
         }
     }
 
-    // 남아 있는 값들을 일괄 복사
-    if (i > mid)
-    {
-        for (l = j; l <= right; l++)
-            arr[k++].x = list[l].x;
-    }
-    // 남아 있는 값들을 일괄 복사
-    else {
-        for (l = i; l <= mid; l++)
-            arr[k++].x = list[l].x;
-    }
-
-    // 배열 arr[](임시 배열)의 리스트를 배열 list[]로 재복사
-    for (l = left; l <= right; l++) {
-        list[l].x = arr[l].x;
-    }
-    free(arr);
+    return cp;
 }
 
-// 합병 정렬
-void merge_sort(Point list[], int left, int right)
+void main(void)
 {
-    int mid;
+    Point* array;
+    Point p;
+    PointPair cp;
+    int size = 0, c = 0;
+    FILE* fp = NULL;
+    fp = fopen("data.txt", "r");
 
-    if (left < right)
+    while (!feof(fp))
     {
-        mid = (left + right) / 2;
-        merge_sort(list, left, mid);
-        merge_sort(list, mid + 1, right);
-        merge(list, left, mid, right);
+        fscanf(fp, "%d %d\n", &p.x, &p.y);
+        size++;
     }
-}
 
-void find_closest_pair(Point* arr, int left, int right)
-{
-	int size = right - left + 1;
-	int mid_x = (arr[0].x + arr[size - 1].x) / 2;
-    while()
+    array = (Point*)malloc(sizeof(Point) * size);
+
+    fseek(fp, 0, SEEK_SET);
+    for (int i = 0; i < size; i++)
+    {
+        fscanf(fp, "%d %d\n", &p.x, &p.y);
+        array[i] = p;
+    }
+    fclose(fp);
+
+    cp = find_closest_pair(array,size);
+    printf("최근접 점의 쌍\n");
+    printf("p1(%d, %d), p2(%d, %d)\n", cp.p1.x, cp.p1.y, cp.p2.x, cp.p2.y);
+    printf("거리: %lf", cp.dis);
+    fp = fopen("result.txt", "w");
+    fprintf(fp, "%d, %d\n", cp.p1.x, cp.p1.y);
+    fprintf(fp, "%d, %d\n", cp.p2.x, cp.p2.y);
+    fprintf(fp, "%lf\n", cp.dis);
+    fclose(fp);
 }

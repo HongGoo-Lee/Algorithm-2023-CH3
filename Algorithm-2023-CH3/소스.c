@@ -32,13 +32,15 @@ void merge(int list[], int left, int mid, int right)
             arr[k++] = list[l];
     }
     // 남아 있는 값들을 일괄 복사
-    else {
+    else
+    {
         for (l = i; l <= mid; l++)
             arr[k++] = list[l];
     }
 
     // 배열 arr[](임시 배열)의 리스트를 배열 list[]로 재복사
-    for (l = left; l <= right; l++) {
+    for (l = left; l <= right; l++)
+    {
         list[l] = arr[l];
     }
     free(arr);
@@ -47,10 +49,9 @@ void merge(int list[], int left, int mid, int right)
 // 합병 정렬
 void merge_sort(int list[], int left, int right)
 {
-    int mid;
+    int mid = 0;
 
-    if (left < right)
-    {
+    if (left < right) {
         mid = (left + right) / 2;
         merge_sort(list, left, mid);
         merge_sort(list, mid + 1, right);
@@ -58,8 +59,7 @@ void merge_sort(int list[], int left, int right)
     }
 }
 
-void main()
-{
+void main() {
     int* array;
     int size = 0, c = 0;
     FILE* fp = NULL;
